@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ssssisisss",
+        $stmt->bind_param("ssssisssss",
             $title, $mainImagePath, $description, $mainCategory, $isANewProduct,
             $subImagesOnePath, $subImagesTwoPath, $subImagesThreePath, $subImagesFourPath, $subImagesFivePath
         );
