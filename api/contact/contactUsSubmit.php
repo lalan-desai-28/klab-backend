@@ -58,7 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #f1f1f1;
         }
         .footer img {
-            width: 100px;
+            width: 200px;
+            height : 200px;
             margin-top: 10px;
         }
         @media (max-width: 600px) {
@@ -74,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Thank You for Contacting Us</h2>
     </div>
     <div class="content">
-        <p>Dear $name,</p>
+        <p>Dear <strong>$name</strong>,</p>
         <p>Thank you for reaching out to us. We have received your message and will get in touch with you shortly.</p>
         <p>We appreciate your interest in Khodiyar Lab.</p>
         <p><strong>Your Message Summary:</strong></p>
@@ -82,10 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li><strong>Subject:</strong> $subject</li>
             <li><strong>Message:</strong> $message</li>
         </ul>
-        <p>Best Regards,<br/>Khodiyar Lab Team</p>
+        <p>Best Regards,<br/>Khodiyar Lab Team<br/>+91 937 4241 351<br/>+91 982 5728 503</p>
     </div>
     <div class="footer">
-        <p>Follow us for more updates</p>
         <img src="https://khodiyarlab.com/logo.png" alt="Khodiyar Lab Logo">
     </div>
 </div>
