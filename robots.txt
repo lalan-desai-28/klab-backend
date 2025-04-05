@@ -4,4 +4,4 @@ Disallow: /cart/
 Disallow: /checkout/
 Disallow: /admin/
 
-Sitemap: https://khodiyarlab.com/sitemap.xml
+Sitemap: https://khodiyarlab.com/api/sitemap.php
