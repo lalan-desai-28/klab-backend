@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Send email to admin with query details
     $adminEmails  = ["desailalan02@gmail.com"]; // Add all admin emails
-    $adminSubject = "New Contact Us Query Received";
+    $adminSubject = "New Query Received | $name | $subject";
     $adminBody    = "A new message has been received from the Contact Us form:\n\n"
         . "Name: $name\n"
         . "Email: $email\n"
