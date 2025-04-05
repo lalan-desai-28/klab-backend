@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /product/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /admin/
+
+Sitemap: https://khodiyarlab.com/sitemap.xml
