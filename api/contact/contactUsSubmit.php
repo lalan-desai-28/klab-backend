@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name    = trim($_POST['name'] ?? '');
     $email   = trim($_POST['email'] ?? '');
     $subject = trim($_POST['subject'] ?? '');
-    $message = trim($_POST['message'] ?? '');
+    $message = nl2br(trim($_POST['message'] ?? '')); // Convert new lines to <br> for HTML
 
     // Validate inputs
     if (empty($name) || empty($email) || empty($subject) || empty($message)) {
@@ -20,10 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Convert newlines to <br> for HTML emails
-    $messageHtml = nl2br(htmlspecialchars($message));
-
-    // Responsive HTML email for the user
+    // ✅ Responsive HTML email for the customer
     $userSubject = "We have received your message - Khodiyar Lab";
     $userBody = <<<HTML
 <!DOCTYPE html>
@@ -34,42 +31,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0; padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
         .container {
             max-width: 600px;
+            background: #fff;
             margin: 20px auto;
-            background: #ffffff;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .header {
             background-color: #4CAF50;
             color: white;
             padding: 20px;
             text-align: center;
+            font-size: 20px;
+            font-weight: bold;
         }
         .content {
-            padding: 25px;
+            padding: 20px;
+            line-height: 1.6;
             color: #333;
+        }
+        .content ul {
+            padding-left: 20px;
         }
         .footer {
             text-align: center;
-            background-color: #f1f1f1;
             padding: 20px;
+            background-color: #f1f1f1;
         }
         .footer img {
-            max-width: 150px;
-            height: auto;
+            width: 150px;
+            margin-top: 10px;
         }
-        @media only screen and (max-width: 600px) {
+        @media (max-width: 600px) {
             .content, .header, .footer {
                 padding: 15px;
             }
             .footer img {
-                max-width: 100px;
+                width: 120px;
             }
         }
     </style>
@@ -77,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <div class="container">
     <div class="header">
-        <h2>Thank You for Contacting Us</h2>
+        Thank You for Contacting Us
     </div>
     <div class="content">
         <p>Dear <strong>$name</strong>,</p>
@@ -86,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p><strong>Your Message Summary:</strong></p>
         <ul>
             <li><strong>Subject:</strong> $subject</li>
-            <li><strong>Message:</strong><br>$messageHtml</li>
+            <li><strong>Message:</strong> <br><br> $message</li>
         </ul>
         <p>Best Regards,<br/>
         Khodiyar Lab Team<br/>
@@ -109,7 +113,7 @@ HTML;
 
     mail($email, $userSubject, $userBody, $userHeaders);
 
-    // Admin HTML email with improved layout
+    // ✅ Responsive HTML email for admin
     $adminSubject = "New Query Received | $name | $subject";
     $adminBody = <<<HTML
 <!DOCTYPE html>
@@ -119,42 +123,51 @@ HTML;
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0; padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
         }
         .container {
             max-width: 600px;
-            margin: auto;
-            background: #ffffff;
+            background: #fff;
+            margin: 20px auto;
+            padding: 20px;
             border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.08);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h2 {
-            color: #2c3e50;
-        }
-        .info-label {
-            font-weight: bold;
-        }
-        .message-box {
-            margin-top: 15px;
+            background-color: #0073e6;
+            color: white;
             padding: 15px;
-            background: #f9f9f9;
-            border-left: 4px solid #4CAF50;
-            white-space: pre-wrap;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .content {
+            padding: 20px;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>📩 New Contact Us Submission</h2>
-    <p><span class="info-label">Name:</span> $name</p>
-    <p><span class="info-label">Email:</span> $email</p>
-    <p><span class="info-label">Subject:</span> $subject</p>
-    <div class="message-box">
-        $messageHtml
+    <h2>New Contact Us Submission</h2>
+    <div class="content">
+        <p><strong>Name:</strong> $name</p>
+        <p><strong>Email:</strong> $email</p>
+        <p><strong>Subject:</strong> $subject</p>
+        <p><strong>Message:</strong> <br><br> $message</p>
     </div>
-    <p style="margin-top: 20px;">📞 Please respond to this query as soon as possible.</p>
+    <div class="footer">
+        Please respond to this query as soon as possible.
+    </div>
 </div>
 </body>
 </html>
