@@ -178,7 +178,7 @@ HTML;
     $adminHeaders .= "From: admin@khodiyarlab.com\r\n";
     $adminHeaders .= "Reply-To: $email\r\n";
 
-    $adminEmails = ["desailalan02@gmail.com"];
+    $adminEmails = ["radadiyajaimin007@gmail.com", "khodiyarlab@gmail.com"];
     foreach ($adminEmails as $adminEmail) {
         mail($adminEmail, $adminSubject, $adminBody, $adminHeaders);
     }
