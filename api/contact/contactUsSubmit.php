@@ -20,6 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    // Convert newlines to <br> for HTML emails
+    $messageHtml = nl2br(htmlspecialchars($message));
+
     // Responsive HTML email for the user
     $userSubject = "We have received your message - Khodiyar Lab";
     $userBody = <<<HTML
@@ -31,14 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
-            color: #333;
+            margin: 0; padding: 0;
             background-color: #f9f9f9;
         }
         .container {
             max-width: 600px;
-            background: #fff;
-            margin: auto;
+            margin: 20px auto;
+            background: #ffffff;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0,0,0,0.05);
@@ -46,25 +48,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .header {
             background-color: #4CAF50;
             color: white;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
         }
         .content {
             padding: 25px;
+            color: #333;
         }
         .footer {
             text-align: center;
-            padding: 15px;
             background-color: #f1f1f1;
+            padding: 20px;
         }
         .footer img {
-            width: 200px;
-            height : 200px;
-            margin-top: 10px;
+            max-width: 150px;
+            height: auto;
         }
-        @media (max-width: 600px) {
+        @media only screen and (max-width: 600px) {
             .content, .header, .footer {
                 padding: 15px;
+            }
+            .footer img {
+                max-width: 100px;
             }
         }
     </style>
@@ -81,11 +86,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p><strong>Your Message Summary:</strong></p>
         <ul>
             <li><strong>Subject:</strong> $subject</li>
-            <li><strong>Message:</strong> $message</li>
+            <li><strong>Message:</strong><br>$messageHtml</li>
         </ul>
-        <p>Best Regards,<br/>Khodiyar Lab Team<br/>+91 937 4241 351<br/>+91 982 5728 503</p>
+        <p>Best Regards,<br/>
+        Khodiyar Lab Team<br/>
+        📞 +91 93742 41351<br/>
+        📞 +91 98257 28503</p>
     </div>
     <div class="footer">
+        <p>Powered by Khodiyar Lab</p>
         <img src="https://khodiyarlab.com/logo.png" alt="Khodiyar Lab Logo">
     </div>
 </div>
@@ -100,7 +109,7 @@ HTML;
 
     mail($email, $userSubject, $userBody, $userHeaders);
 
-    // Responsive HTML email for admin
+    // Admin HTML email with improved layout
     $adminSubject = "New Query Received | $name | $subject";
     $adminBody = <<<HTML
 <!DOCTYPE html>
@@ -108,25 +117,44 @@ HTML;
 <head>
     <meta charset="UTF-8">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; }
-        .container {
-            background: #fff; padding: 20px; margin: auto;
-            max-width: 600px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; padding: 20px;
+            background-color: #f4f4f4;
         }
-        h2 { color: #333; }
-        p { line-height: 1.6; }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.08);
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        .info-label {
+            font-weight: bold;
+        }
+        .message-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>New Contact Us Submission</h2>
-    <p><strong>Name:</strong> $name</p>
-    <p><strong>Email:</strong> $email</p>
-    <p><strong>Subject:</strong> $subject</p>
-    <p><strong>Message:</strong></p>
-    <p>$message</p>
-    <hr/>
-    <p>Please respond to this query as soon as possible.</p>
+    <h2>📩 New Contact Us Submission</h2>
+    <p><span class="info-label">Name:</span> $name</p>
+    <p><span class="info-label">Email:</span> $email</p>
+    <p><span class="info-label">Subject:</span> $subject</p>
+    <div class="message-box">
+        $messageHtml
+    </div>
+    <p style="margin-top: 20px;">📞 Please respond to this query as soon as possible.</p>
 </div>
 </body>
 </html>
