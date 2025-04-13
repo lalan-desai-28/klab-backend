@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /products/
+Allow: /about/
+Allow: /contact/
 Disallow: /cart/
 Disallow: /checkout/
 Disallow: /admin/
